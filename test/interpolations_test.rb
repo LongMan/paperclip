@@ -113,6 +113,18 @@ class InterpolationsTest < Test::Unit::TestCase
     attachment.expects(:instance_read).with(:updated_at).returns(now)
     assert_equal now.to_s, Paperclip::Interpolations.timestamp(attachment, :style)
   end
+  
+  should "return hex_subdirs" do
+    attachment = mock
+    instance = mock
+    
+    instance.stubs(:id).returns(23)
+    instance.stubs(:class_name).returns("Article")
+    attachment.stubs(:name).returns("image")    
+    attachment.stubs(:instance).returns(instance)    
+
+    assert_equal "14/11", Paperclip::Interpolations.hex_subdirs(attachment)
+  end
 
   should "call all expected interpolations with the given arguments" do
     Paperclip::Interpolations.expects(:id).with(:attachment, :style).returns(1234)

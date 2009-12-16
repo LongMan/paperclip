@@ -32,6 +32,11 @@ module Paperclip
         end
       end
     end
+    
+    # Returns subdirs for instance, that split model-attribute folder into 256 folders on two levels
+    def hex_subdirs attachment, style = nil
+      Digest::SHA1.hexdigest("#{attachment.instance.id}-#{attachment.instance.class_name}-#{attachment.name}")[0..3].gsub(/(..)(..)/, "\\1/\\2")
+    end
 
     # Returns the filename, the same way as ":basename.:extension" would.
     def filename attachment, style
